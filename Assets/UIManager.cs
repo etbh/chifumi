@@ -43,22 +43,18 @@ public class UIManager : MonoBehaviour {
 	}
 
 	public void SetPlayerVsAI() {
-		print ("Activating player vs ai");
 		ToggleButtons(playerVsAiButton, playerVsPlayerButton);
 	}
 
 	public void SetPlayerVsPlayer() {
-		print ("Activating player vs player");
 		ToggleButtons(playerVsPlayerButton, playerVsAiButton);
 	}
 	
 	public void SetPoints() {
-		print ("Activating points");
 		ToggleButtons(pointsButton, roundsButton);
 	}
 
 	public void SetRounds() {
-		print ("Activating r");
 		ToggleButtons(roundsButton, pointsButton);
 	}
 
