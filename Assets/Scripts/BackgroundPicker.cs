@@ -1,6 +1,8 @@
 ﻿using UnityEngine;
+using UnityEngine.UI;
 using System.Collections;
 
+[ExecuteInEditMode]
 public class BackgroundPicker : MonoBehaviour {
 
 	public Sprite[] backgrounds;
@@ -18,8 +20,8 @@ public class BackgroundPicker : MonoBehaviour {
 	void PickRandom() {
 		// Select a random background (we SHOULD have at least 1 background !)
 		int backgroundIdx = Random.Range(0, backgrounds.Length);
-		print ("Selectiong background " + backgroundIdx);
-		SpriteRenderer rndr = GetComponent<SpriteRenderer>();
-		rndr.sprite = backgrounds[backgroundIdx];
+		print ("Selecting background " + backgroundIdx);
+		Image img = GetComponent<Image>();
+		img.sprite = backgrounds[backgroundIdx];
 	}
 }
