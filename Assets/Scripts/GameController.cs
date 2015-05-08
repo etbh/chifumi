@@ -4,7 +4,29 @@ using System.Collections.Generic;
 using System.Linq;
 
 public class GameController : MonoBehaviour {
-	
+
+	//Singleton, sort of
+	private static GameController instance = null;
+	public static GameController Instance{
+		get{
+			if (instance == null){
+				instance = FindObjectOfType<GameController>();
+				DontDestroyOnLoad(instance);
+			}
+			return instance;
+		}
+	}
+	void Awake(){
+		if (instance == null){
+			instance = this;
+			DontDestroyOnLoad(this);
+		}
+		else{
+			if (this != instance)
+				Destroy(this.gameObject);
+		}
+
+	}
 
 	private bool scoreMode;
 	private int objective;
