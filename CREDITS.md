@@ -1,3 +1,14 @@
+Personnel
+=========
+
+Alexandre Baron (Scylardor) : UI Design, Animation Programming, Royalty-free assets scavenging
+
+Emmanuel Body-Hinrichsen (etbh) : Gameplay Programming
+
+Arnaud Jomard (JomardArnaud) : Gameplay Programming, UI Conception
+
+All the personnel also contributed to the Game Design.
+
 Backgrounds
 ===========
 
@@ -28,6 +39,8 @@ Facebook Pling Sound - http://soundbible.com/1645-Pling.html
 
 Hitting Metal - https://www.freesound.org/people/altfuture/sounds/174639/
 
+Cartoon Ricochet 2 -  http://soundbible.com/2050-Cartoon-Ricochet-2.html
+
 Imma Firin Mah Lazor
 
 Spiderman: The 90's Animated Series Opening - Excerpt 
@@ -53,3 +66,7 @@ FUUUU Rage Comic
 
 Clint Eastwood from The Good, the Bad and the Ugly (1966)
 
+Font
+====
+
+Pamela want a Bike to Ride - http://www.dafont.com/pamela-wants-to-ride.font
