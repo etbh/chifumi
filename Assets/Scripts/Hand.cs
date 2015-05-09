@@ -7,7 +7,7 @@ public class Hand : MonoBehaviour {
 
 	// Use this for initialization
 	void Start () {
-		setFingers (new Digit[]{Digit.Index, Digit.Pouce, Digit.Annulaire});
+		//setFingers (new Digit[]{Digit.Index, Digit.Pouce, Digit.Annulaire, Digit.Pouce, Digit.Annulaire, Digit.Index, Digit.Majeur, Digit.Annulaire, Digit.Auriculaire});
 	//main doit aparaitre avec aucun doigt
 		//mais peut etre 
 	}
@@ -15,18 +15,23 @@ public class Hand : MonoBehaviour {
 	List<GameObject> fings = new List<GameObject>();
 
 	public void setFingers(IList<Digit> tab_fingers){
-		const int angle = 90;
-		float rot = angle / (tab_fingers.Count - 1);
+		const int angle = 160;
 		int n = 0;
+		int len = tab_fingers.Count - 1;
+		int rot = angle / len;
 		//fings.ForEach (Destroy);
 		foreach(var finger in tab_fingers){
 			var fing = new GameObject();
 			fing.transform.parent = this.gameObject.transform;
 			fing.AddComponent<SpriteRenderer>();
 			fing.GetComponent<SpriteRenderer>().sprite = Resources.Load<Sprite>("Hand/" + finger.ToString());
-			fing.GetComponent<Transform>().Translate(3 * n, 8 - 2 * n, 0);
-			fing.GetComponent<Transform>().Rotate(0, 0, rot + n);
+			fing.GetComponent<Transform>().Rotate(0, 0, angle - (rot * n));
+			if (finger == Digit.Pouce)
+				fing.GetComponent<Transform>().Translate(Vector3.right * 12);
+			else
+				fing.GetComponent<Transform>().Translate(Vector3.right * 14);
 			fings.Add(fing);
+			len++;
 			n++;
 		}
 	}
