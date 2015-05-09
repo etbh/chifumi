@@ -21,6 +21,8 @@ public class SpriteFader : MonoBehaviour {
 	
 	// Update is called once per frame
 	void Update () {
+		// Zoom the sprite no matter what
+		sprite.transform.localScale += scaleStep;
 		// Use hasFadedIn to prevent matching the condition if we're fading out
 		if (sprite.color.a != maximum && !hasFadedIn) { // The sprite hasn't completely faded in yet
 			float t = (Time.time - startTime) / fadeInDuration;
@@ -34,7 +36,9 @@ public class SpriteFader : MonoBehaviour {
 		} else { // The sprite is faded in, fade it out
 			float t = (Time.time - fadeInCompleteTime) / fadeOutDuration;
 			sprite.color = new Color(1.0f, 1.0f, 1.0f, Mathf.SmoothStep(maximum, minimum, t));
+			if (sprite.color.a == minimum) { // The sprite is completely invisible - destroy it
+				Destroy(gameObject);
+			}
 		}
-		sprite.transform.localScale += scaleStep;
 	}
 }
