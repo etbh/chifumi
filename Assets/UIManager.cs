@@ -17,6 +17,9 @@ public class UIManager : MonoBehaviour {
 	private Button pointsButton;
 	private Button roundsButton;
 
+	// Other used UI elements
+	public InputField victoryPointsInput;
+
 	public void Start() {
 		playerVsAiButton = playerVsAi.GetComponent<Button>();
 		playerVsPlayerButton = playerVsPlayer.GetComponent<Button>();
@@ -43,23 +46,35 @@ public class UIManager : MonoBehaviour {
 	}
 
 	public void SetPlayerVsAI() {
-		print ("Activating player vs ai");
 		ToggleButtons(playerVsAiButton, playerVsPlayerButton);
 	}
 
 	public void SetPlayerVsPlayer() {
-		print ("Activating player vs player");
 		ToggleButtons(playerVsPlayerButton, playerVsAiButton);
 	}
 	
 	public void SetPoints() {
-		print ("Activating points");
 		ToggleButtons(pointsButton, roundsButton);
 	}
 
 	public void SetRounds() {
-		print ("Activating r");
 		ToggleButtons(roundsButton, pointsButton);
+	}
+
+	public void SetVictoryPoints() {
+		int curValue;
+		int newValue;
+		bool isValid = int.TryParse(victoryPointsInput.text, out curValue);
+		if (isValid) {
+			newValue = Mathf.Max(curValue, 1);
+			newValue = Mathf.Min(newValue, 999);
+		}
+		else {
+			newValue = 1;
+		}
+		if (newValue != curValue) {
+			victoryPointsInput.text = newValue.ToString();
+		}
 	}
 
 	public void StartGame() {

@@ -20,7 +20,6 @@ public class BackgroundPicker : MonoBehaviour {
 	void PickRandom() {
 		// Select a random background (we SHOULD have at least 1 background !)
 		int backgroundIdx = Random.Range(0, backgrounds.Length);
-		print ("Selecting background " + backgroundIdx);
 		Image img = GetComponent<Image>();
 		img.sprite = backgrounds[backgroundIdx];
 	}
