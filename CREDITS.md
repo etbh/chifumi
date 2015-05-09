@@ -30,6 +30,8 @@ Hitting Metal - https://www.freesound.org/people/altfuture/sounds/174639/
 
 Imma Firin Mah Lazor
 
+Spiderman: The 90's Animated Series Opening - Excerpt 
+
 Censor Beep
 
 Images
@@ -48,3 +50,6 @@ Ronnie James Dio
 Facebook Thumb
 
 FUUUU Rage Comic
+
+Clint Eastwood from The Good, the Bad and the Ugly (1966)
+
