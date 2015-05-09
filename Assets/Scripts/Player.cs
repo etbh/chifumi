@@ -11,9 +11,14 @@ public class Player : MonoBehaviour {
 	}
 	void Update () {
 		if (!hasPlayed){
-			//TODO : wheck if player has selected a figure
-			// this.Figure = something has to happen here
-			hasPlayed = true;
+			string text = "main :\n";
+			foreach (var finger in Hand)
+				text += finger.ToString() + ", ";
+			text += "\nfigures possibles :\n";
+			foreach (var figure in formableFigures())
+				text += figure.Name + ", ";
+			gameObject.GetComponent<GUIText>().text = text;
+			//hasPlayed = true;
 		}
 
 	}

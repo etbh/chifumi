@@ -28,13 +28,10 @@ public class GameController : MonoBehaviour {
 
 	}
 
-	public void Start(){
-		StartGame = false;
-	}
-
 	public void Update(){
 		if (StartGame){
 			StartCoroutine("playGame");
+			StartGame = false;
 		}
 	}
 
@@ -60,6 +57,7 @@ public class GameController : MonoBehaviour {
 
 	private static List<Digit> genHand(int mutatingFactor){
 		var hand = System.Enum.GetValues(typeof(Digit)).Cast<Digit>().ToList<Digit>();
+		hand.Remove(Digit.Any);
 		for (int i=0; i < mutatingFactor; ++i)
 			hand[Random.Range(0, 5)] = (Digit) Random.Range(0,5);
 
@@ -68,23 +66,23 @@ public class GameController : MonoBehaviour {
 		return hand;
 	}
 
-	private void playGame(){
+	private IEnumerator playGame(){
 		players = new Player[2] {player1.GetComponent<Player>(), player2.GetComponent<Player>()};
 		for (round = 1 ; !isGameOver(); ++round)
-			playRound ();
+			yield return StartCoroutine(playRound());
 	}
 
-	private void playRound(){
+	private IEnumerator playRound(){
 		var hand = genHand(round-1);
 		players[0].Hand = hand;
 		players[1].Hand = hand;
 		for(turn=1; !isRoundOver(); ++turn)
-			playTurn ();
+			yield return StartCoroutine((playTurn()));
 	}
 	
-	private void playTurn(){
-		players[0].WaitForPlay();
-		players[1].WaitForPlay();
+	private IEnumerator playTurn(){
+	yield return StartCoroutine(players[0].WaitForPlay());
+	yield return StartCoroutine(players[1].WaitForPlay());
 		bool p1win = players[0].Figure.WinsAgainst(players[1].Figure);
 		bool p2win = players[1].Figure.WinsAgainst(players[0].Figure);
 		if (p1win && p2win){

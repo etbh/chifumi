@@ -11,8 +11,7 @@ public class Figure {
 			return false;
 		foreach (Digit digit in System.Enum.GetValues(typeof(Digit))){
 			if (digit != Digit.Any){
-				System.Func<Digit, bool> isEqualOrAny = _digit => _digit == Digit.Any || _digit == digit;
-				if (hand.Count(isEqualOrAny) < Digits.Count(isEqualOrAny))
+				if (Digits.Count(_digit => _digit == digit) > hand.Count(_digit => _digit == digit))
 					return false;
 			}
 		}
@@ -41,13 +40,18 @@ public class Figure {
 					),				
 				new Figure(
 					"Caillou",
-					Enumerable.Repeat(Digit.Any, 4),
+					Enumerable.Repeat(Digit.Any, 5),
 					figure => figure.Name == "Ciseaux"
 				),				
 				new Figure(
 					"Ciseaux",
-					Enumerable.Repeat(Digit.Any, 4),
+					new Digit[] {Digit.Index, Digit.Majeur},
 					figure => figure.Name == "Papier"
+				),				
+				new Figure(
+					"Pincette",
+					new Digit[] {Digit.Pouce, Digit.Majeur, Digit.Annulaire},
+					figure => figure.Digits.Count < 3
 				)
 			};
 		}
