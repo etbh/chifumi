@@ -28,20 +28,35 @@ public class GameController : MonoBehaviour {
 
 	}
 
-	private bool scoreMode;
-	private int objective;
+	public void Start(){
+		StartGame = false;
+	}
+
+	public void Update(){
+		if (StartGame){
+			StartCoroutine("playGame");
+		}
+	}
+
+	public GameObject player1;
+	public GameObject player2;
+
+	public bool ScoreMode;
+	public int Objective;
+	public bool IA;
+	public bool StartGame;
+
 	private Player[] players;
 	private int round;
 	private int turn;
-	private bool IA;
 	private bool waitingForPlayers;
 
-	public void StartGame(bool scoreMode, int objective, bool IA){
-		this.scoreMode = scoreMode;
-		this.objective = objective;
-		this.IA = IA;
-		StartCoroutine("startGame");
-	}
+//	public void StartGame(bool scoreMode, int objective, bool IA){
+//		this.scoreMode = scoreMode;
+//		this.objective = objective;
+//		this.IA = IA;
+//		StartCoroutine("startGame");
+//	}
 
 	private static List<Digit> genHand(int mutatingFactor){
 		var hand = System.Enum.GetValues(typeof(Digit)).Cast<Digit>().ToList<Digit>();
@@ -54,7 +69,7 @@ public class GameController : MonoBehaviour {
 	}
 
 	private void playGame(){
-		players = new Player[2];
+		players = new Player[2] {player1.GetComponent<Player>(), player2.GetComponent<Player>()};
 		for (round = 1 ; !isGameOver(); ++round)
 			playRound ();
 	}
@@ -93,7 +108,7 @@ public class GameController : MonoBehaviour {
 	}
 
 	private bool isGameOver(){
-		return players.Any(player => player.Score >= objective);
+		return players.Any(player => player.Score >= Objective);
 	}
 
 }
