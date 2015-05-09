@@ -15,6 +15,7 @@ public class Card : MonoBehaviour {
 	}
 
 	public void OnMouseDown(){
+		OnMouseExit();
 		isSelected = true;
 	}
 }

@@ -74,15 +74,17 @@ public class GameController : MonoBehaviour {
 
 	private IEnumerator playRound(){
 		var hand = genHand(round-1);
-		players[0].Hand = hand;
-		players[1].Hand = hand;
+		players[0].Hand = hand.ToList();
+		players[1].Hand = hand.ToList();
 		for(turn=1; !isRoundOver(); ++turn)
 			yield return StartCoroutine((playTurn()));
 	}
 	
 	private IEnumerator playTurn(){
-	yield return StartCoroutine(players[0].WaitForPlay());
-	yield return StartCoroutine(players[1].WaitForPlay());
+		Debug.Log ("Player 1 :");
+		yield return StartCoroutine(players[0].WaitForPlay());
+		Debug.Log ("Player 2 :");
+		yield return StartCoroutine(players[1].WaitForPlay());
 		bool p1win = players[0].Figure.WinsAgainst(players[1].Figure);
 		bool p2win = players[1].Figure.WinsAgainst(players[0].Figure);
 		if (p1win && p2win){
@@ -98,7 +100,7 @@ public class GameController : MonoBehaviour {
 		if (!p1win && !p2win){
 
 		}
-	}	
+	}
 
 	private bool isRoundOver(){
 		return players.Any(player => player.Hand.Count == 0)

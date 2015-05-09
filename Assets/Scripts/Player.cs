@@ -8,20 +8,22 @@ public class Player : MonoBehaviour {
 
 	void Start() {
 		hasPlayed = true;
-		selecting = false;
+		selectingCard = false;
 	}
 	void Update () {
-		if (selecting){
+		if (selectingCard){
 			IEnumerable<GameObject> selected = cards.Where(card => card.GetComponent<Card>().isSelected);
 			if (selected.Count() == 1){
 				Figure = selected.First().GetComponent<Card>().figure;
 				hasPlayed = true;
-				selecting = false;
+				selectingCard = false;
 				cards.ForEach(Destroy);
+				// Selection of fingers
+				Figure.Digits.ForEach(digit => Hand.Remove(digit));
 			}
 		}
 		else if (!hasPlayed){
-			selecting = true;
+			selectingCard = true;
 			Debug.Log(Hand.Count()+" digits lefts");
 			cards = new List<GameObject>();
 			var formable = formableFigures();
@@ -35,7 +37,7 @@ public class Player : MonoBehaviour {
 				card.GetComponent<Card>().figure = figure;
 				float totalrange = formable.Count() * card.GetComponent<SpriteRenderer>().bounds.size.x * 1.1f;
 				card.transform.localPosition = new Vector3((i - formable.Count()/2) * totalrange / formable.Count(),0,0);
-
+				var sr = card.GetComponentsInChildren<SpriteRenderer>();
 			}
 		}
 
@@ -51,7 +53,8 @@ public class Player : MonoBehaviour {
 
 	public Figure Figure;
 	private bool hasPlayed;
-	private bool selecting;
+	private bool selectingCard;
+	private bool selectingFinger;
 	private List<GameObject> cards;
 
 	public IEnumerator WaitForPlay(){
@@ -59,6 +62,5 @@ public class Player : MonoBehaviour {
 		while (!hasPlayed){
 			yield return null;
 		}
-		Figure.Digits.ForEach(digit => Hand.Remove(digit));
 	}
 }
