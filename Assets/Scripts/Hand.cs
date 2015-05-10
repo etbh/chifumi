@@ -25,12 +25,14 @@ public class Hand : MonoBehaviour {
 			fing.AddComponent<SpriteRenderer>();
 			fing.AddComponent<PolygonCollider2D>();
 			fing.name = finger.ToString();
+			fing.GetComponent<Transform>().localScale = Vector3.one;
 			fing.GetComponent<SpriteRenderer>().sprite = Resources.Load<Sprite>("Hand/" + finger.ToString());
 			fing.GetComponent<Transform>().Rotate(0, 0, angle - (rot * n));
 			if (finger == Digit.Pouce)
-				fing.GetComponent<Transform>().Translate(Vector3.right * 12);
+				fing.GetComponent<Transform>().Translate (Vector3.right * 12 * gameObject.transform.localScale.x);
 			else
-				fing.GetComponent<Transform>().Translate(Vector3.right * 14);
+				fing.GetComponent<Transform>().Translate (Vector3.right * 14 * gameObject.transform.localScale.x);
+			fing.transform.position += gameObject.transform.position;
 			fings.Add(fing);
 			len++;
 			n++;
@@ -56,6 +58,8 @@ public class Hand : MonoBehaviour {
 	
 	// Update is called once per frame
 	void Update () {
-		
+
 	}
 }
+
+
