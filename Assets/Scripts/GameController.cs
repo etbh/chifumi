@@ -42,7 +42,7 @@ public class GameController : MonoBehaviour {
 	public bool IA;
 	public bool StartGame;
 
-	private Player[] players;
+	private List<Player> players;
 	private int round;
 	private int turn;
 	private bool waitingForPlayers;
@@ -66,20 +66,28 @@ public class GameController : MonoBehaviour {
 	}
 
 	private IEnumerator playGame(){
-		players = new Player[2] {
+		players = new List<Player>() {
 			(player1 ? player1 : GameObject.Find("Player 1")).GetComponent<Player>(),
 			(player2 ? player1 : GameObject.Find("Player 2")).GetComponent<Player>()
 		};
-		for (round = 1 ; !isGameOver(); ++round)
+		players.ForEach(player => player.Turns = player.Rounds = 0);
+		for (round = 1 ; !isGameOver(); ++round){
 			yield return StartCoroutine(playRound());
+			if (!ScoreMode){
+
+			}
+		}
 	}
 
 	private IEnumerator playRound(){
 		var hand = genHand(round-1);
 		players[0].Hand = hand.ToList();
 		players[1].Hand = hand.ToList();
+		GameObject.Find("GameBackground").GetComponent<GameBackgroundPicker>().PickRandom();
 		for(turn=1; !isRoundOver(); ++turn)
 			yield return StartCoroutine((playTurn()));
+		var animation = GameObject.Instantiate<GameObject>(Resources.Load<GameObject>("Prefabs/Animation"));
+		animation.GetComponent<SpriteRenderer>().sprite = Resources.Load<Sprite>("Animations/NouvelleHumanite");
 	}
 	
 	private IEnumerator playTurn(){
@@ -96,11 +104,11 @@ public class GameController : MonoBehaviour {
 			animationName = "Egalite";
 		}
 		if (!p1win && p2win){
-			players[1].Score ++;
+			players[1].Turns ++;
 			animationName = players[1].Figure.Name;
 		}
 		if (p1win && !p2win){
-			players[0].Score ++;
+			players[0].Turns ++;
 			animationName = players[0].Figure.Name;
 		}
 		if (!p1win && !p2win){
@@ -112,12 +120,12 @@ public class GameController : MonoBehaviour {
 	}
 
 	private bool isRoundOver(){
-		return players.Any(player => player.Hand.Count == 0)
+		return players.Any(player => !Figure.AllFigures.Any(fig => fig.CanForm(player.Hand)))
 			|| turn > 3;
 	}
 
 	private bool isGameOver(){
-		return players.Any(player => player.Score >= Objective);
+		return players.Any(player => (ScoreMode? player.Turns: player.Rounds) >= Objective);
 	}
 
 }

@@ -17,10 +17,11 @@ public class GameBackgroundPicker : MonoBehaviour {
 	
 	}
 
-	void PickRandom() {
+	public void PickRandom() {
 		// Select a random background (we SHOULD have at least 1 background !)
 		int backgroundIdx = Random.Range(0, backgrounds.Length);
 		SpriteRenderer myRenderer = GetComponent<SpriteRenderer>();
-		myRenderer.sprite = backgrounds[backgroundIdx];
+		if (myRenderer)
+			myRenderer.sprite = backgrounds[backgroundIdx];
 	}
 }
