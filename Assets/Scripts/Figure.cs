@@ -35,12 +35,12 @@ public class Figure {
 			return new List<Figure> () {
 				new Figure(
 					"Papier",
-					Enumerable.Repeat(Digit.Any, 4),
+					new Digit[] {Digit.Index, Digit.Majeur, Digit.Annulaire, Digit.Auriculaire},
 					figure => figure.Name == "Caillou"
 				),
 				new Figure(
 					"Caillou",
-					Enumerable.Repeat(Digit.Any, 5),
+					new Digit[] {Digit.Pouce, Digit.Index, Digit.Majeur, Digit.Annulaire, Digit.Auriculaire},
 					figure => figure.Name == "Ciseaux"
 				),
 				new Figure(
