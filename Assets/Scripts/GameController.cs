@@ -93,6 +93,20 @@ public class GameController : MonoBehaviour {
 			yield return StartCoroutine((playTurn()));
 		var animation = GameObject.Instantiate<GameObject>(Resources.Load<GameObject>("Prefabs/Animation"));
 		animation.GetComponent<SpriteRenderer>().sprite = Resources.Load<Sprite>("Animations/NouvelleHumanite");
+		yield return new WaitForSeconds(2);
+	}
+
+	private IEnumerator waitEndAnimation(){
+		Debug.Log ("waitEndAnimation");
+		return null;
+//		while (GameObject.Find("Animation)") == null){
+//			Debug.Log ("Not Found");
+//			yield return null;
+//		}
+//		while (GameObject.Find("Animation") != null){
+//			Debug.Log("Found animation");
+//			yield return null;
+//		}
 	}
 	
 	private IEnumerator playTurn(){
@@ -129,6 +143,7 @@ public class GameController : MonoBehaviour {
 		}
 		var animation = GameObject.Instantiate<GameObject>(Resources.Load<GameObject>("Prefabs/Animation"));
 		animation.GetComponent<SpriteRenderer>().sprite = Resources.Load<Sprite>("Animations/"+animationName);
+		yield return new WaitForSeconds(2);
 	}
 
 	private bool isRoundOver(){
