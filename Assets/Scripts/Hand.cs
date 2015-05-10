@@ -17,7 +17,7 @@ public class Hand : MonoBehaviour {
 		const int angle = 160;
 		int n = 0;
 		int len = tab_fingers.Count - 1;
-		int rot = angle / len;
+		int rot = len != 0 ? angle / len : 90;
 		fings.ForEach (Destroy);
 		foreach(var finger in tab_fingers){
 			var fing = new GameObject();
@@ -27,6 +27,7 @@ public class Hand : MonoBehaviour {
 			fing.name = finger.ToString();
 			fing.GetComponent<Transform>().localScale = Vector3.one;
 			fing.GetComponent<SpriteRenderer>().sprite = Resources.Load<Sprite>("Hand/" + finger.ToString());
+			fing.GetComponent<Transform>().rotation = gameObject.transform.rotation;
 			fing.GetComponent<Transform>().Rotate(0, 0, angle - (rot * n));
 			if (finger == Digit.Pouce)
 				fing.GetComponent<Transform>().Translate (Vector3.right * 12 * gameObject.transform.localScale.x);
@@ -43,12 +44,13 @@ public class Hand : MonoBehaviour {
 		// Doit afficher en surbrillance les doigt nécéssaire à la figure qui est sur la card sélectionné (si il y a trois pouces dispo mais que la figure n'en requière que 1 afficher 
 		// le premier rencontré.
 		List<GameObject> cpy_fing = fings.ToList();
-		var check = new GameObject();
+		GameObject check;
 		foreach (var fing in fings){
-			fing.GetComponent<SpriteRenderer>().color = new Color(1f, 1f, 1f, 1f);
+			if (fing != null)
+				fing.GetComponent<SpriteRenderer>().color = new Color(1f, 1f, 1f, 1f);
 		}
 		foreach (var finger in tab_finger) {
-			check = cpy_fing.Find(fing => fing.name == finger.ToString());
+			check = cpy_fing.Find(fing => fing != null && fing.name == finger.ToString());
 			if (check != null){
 				check.GetComponent<SpriteRenderer>().color = Color.red;
 				cpy_fing.Remove(check);

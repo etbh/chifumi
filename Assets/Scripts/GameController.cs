@@ -2,6 +2,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
+using UnityEngine.UI;
 
 public class GameController : MonoBehaviour {
 
@@ -97,9 +98,13 @@ public class GameController : MonoBehaviour {
 	private IEnumerator playTurn(){
 		players[0].UpdateFingers();
 		players[1].UpdateFingers();
+		GameObject.Find("J1 Text").GetComponent<Text>().text = "Joueur 1: " + (ScoreMode ? player1.GetComponent<Player>().Turns : player1.GetComponent<Player>().Rounds);
+		GameObject.Find("J2 Text").GetComponent<Text>().text = "Joueur 2: " + (ScoreMode ? player2.GetComponent<Player>().Turns : player2	.GetComponent<Player>().Rounds);
+		GameObject.Find("Victoire Text").GetComponent<Text>().text = Objective + " " + (ScoreMode ? "Points" : "Manches");
+		if (!ScoreMode)
+			GameObject.Find("Tour Text").GetComponent<Text>().text = "Tour : " + turn;
 		Debug.Log ("Player 1 :");
 		yield return StartCoroutine(players[0].WaitForPlay());
-		players[0].UpdateFingers();
 		Debug.Log ("Player 2 :");
 		yield return StartCoroutine(players[1].WaitForPlay());
 		players[1].UpdateFingers();
