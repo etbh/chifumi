@@ -67,14 +67,18 @@ public class GameController : MonoBehaviour {
 
 	private IEnumerator playGame(){
 		players = new List<Player>() {
-			(player1 ? player1 : GameObject.Find("Player 1")).GetComponent<Player>(),
-			(player2 ? player1 : GameObject.Find("Player 2")).GetComponent<Player>()
+			(player1 ? player1 : player1 = GameObject.Find("Player 1")).GetComponent<Player>(),
+			(player2 ? player2 : player2 = GameObject.Find("Player 2")).GetComponent<Player>()
 		};
 		players.ForEach(player => player.Turns = player.Rounds = 0);
 		for (round = 1 ; !isGameOver(); ++round){
 			yield return StartCoroutine(playRound());
 			if (!ScoreMode){
-
+				if (players[0].Turns > players[1].Turns)
+					players[0].Rounds ++;
+				if (players[0].Turns < players[1].Turns)
+					players[1].Rounds ++;
+				players[0].Turns = players[1].Turns = 0;
 			}
 		}
 	}
@@ -91,10 +95,14 @@ public class GameController : MonoBehaviour {
 	}
 	
 	private IEnumerator playTurn(){
+		players[0].UpdateFingers();
+		players[1].UpdateFingers();
 		Debug.Log ("Player 1 :");
 		yield return StartCoroutine(players[0].WaitForPlay());
+		players[0].UpdateFingers();
 		Debug.Log ("Player 2 :");
 		yield return StartCoroutine(players[1].WaitForPlay());
+		players[1].UpdateFingers();
 		bool p1win = players[0].Figure.WinsAgainst(players[1].Figure);
 		bool p2win = players[1].Figure.WinsAgainst(players[0].Figure);
 		string animationName ="";
@@ -116,7 +124,6 @@ public class GameController : MonoBehaviour {
 		}
 		var animation = GameObject.Instantiate<GameObject>(Resources.Load<GameObject>("Prefabs/Animation"));
 		animation.GetComponent<SpriteRenderer>().sprite = Resources.Load<Sprite>("Animations/"+animationName);
-
 	}
 
 	private bool isRoundOver(){
