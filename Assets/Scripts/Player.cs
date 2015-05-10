@@ -25,6 +25,7 @@ public class Player : MonoBehaviour {
 		else if (!hasPlayed){
 			selectingCard = true;
 			Debug.Log(Hand.Count()+" digits lefts");
+			gameObject.GetComponentInChildren<Hand>().setFingers(Hand);
 			cards = new List<GameObject>();
 			var formable = formableFigures();
 			for (int i=0; i<formable.Count(); ++i){
@@ -37,7 +38,6 @@ public class Player : MonoBehaviour {
 				card.GetComponent<Card>().figure = figure;
 				float totalrange = formable.Count() * card.GetComponent<SpriteRenderer>().bounds.size.x * 1.1f;
 				card.transform.localPosition = new Vector3((i - formable.Count()/2) * totalrange / formable.Count(),0,0);
-				var sr = card.GetComponentsInChildren<SpriteRenderer>();
 			}
 		}
 
@@ -49,7 +49,9 @@ public class Player : MonoBehaviour {
 
 	public List<Digit> Hand;
 
-	public int Score;
+	public int Turns;
+	public int Rounds;
+	public int Score; // now useless
 
 	public Figure Figure;
 	private bool hasPlayed;
