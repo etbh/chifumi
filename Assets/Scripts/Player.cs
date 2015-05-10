@@ -25,7 +25,6 @@ public class Player : MonoBehaviour {
 		else if (!hasPlayed){
 			selectingCard = true;
 			Debug.Log(Hand.Count()+" digits lefts");
-			gameObject.GetComponentInChildren<Hand>().setFingers(Hand);
 			cards = new List<GameObject>();
 			var formable = formableFigures();
 			for (int i=0; i<formable.Count(); ++i){
@@ -41,6 +40,10 @@ public class Player : MonoBehaviour {
 			}
 		}
 
+	}
+
+	public void UpdateFingers(){
+		gameObject.GetComponentInChildren<Hand>().setFingers(Hand);
 	}
 
 	private IEnumerable<Figure> formableFigures(){
