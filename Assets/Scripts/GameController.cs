@@ -67,7 +67,10 @@ public class GameController : MonoBehaviour {
 	}
 
 	private IEnumerator playGame(){
-		players = new Player[2] {player1.GetComponent<Player>(), player2.GetComponent<Player>()};
+		players = new Player[2] {
+			(player1 ? player1 : GameObject.Find("Player 1")).GetComponent<Player>(),
+			(player2 ? player1 : GameObject.Find("Player 2")).GetComponent<Player>()
+		};
 		for (round = 1 ; !isGameOver(); ++round)
 			yield return StartCoroutine(playRound());
 	}
@@ -87,19 +90,26 @@ public class GameController : MonoBehaviour {
 		yield return StartCoroutine(players[1].WaitForPlay());
 		bool p1win = players[0].Figure.WinsAgainst(players[1].Figure);
 		bool p2win = players[1].Figure.WinsAgainst(players[0].Figure);
+		string animationName ="";
 		if (p1win && p2win){
 			players[0].Hand.AddRange(players[0].Figure.Digits);
-         	players[1].Hand.AddRange(players[1].Figure.Digits);
+			players[1].Hand.AddRange(players[1].Figure.Digits);
+			animationName = "Egalite";
 		}
 		if (!p1win && p2win){
 			players[1].Score ++;
+			animationName = players[1].Figure.Name;
 		}
 		if (p1win && !p2win){
 			players[0].Score ++;
+			animationName = players[0].Figure.Name;
 		}
 		if (!p1win && !p2win){
-
+			animationName = "Null";
 		}
+		var animation = GameObject.Instantiate<GameObject>(Resources.Load<GameObject>("Prefabs/Animation"));
+		animation.GetComponent<SpriteRenderer>().sprite = Resources.Load<Sprite>("Animations/"+animationName);
+
 	}
 
 	private bool isRoundOver(){
