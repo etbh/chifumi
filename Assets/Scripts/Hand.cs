@@ -8,11 +8,10 @@ public class Hand : MonoBehaviour {
 	// Use this for initialization
 	void Start () {
 		//setFingers (new Digit[]{Digit.Index, Digit.Pouce, Digit.Annulaire, Digit.Pouce, Digit.Annulaire, Digit.Index, Digit.Majeur, Digit.Annulaire, Digit.Auriculaire});
-	//main doit aparaitre avec aucun doigt
-		//mais peut etre 
+		//selectFingers (new Digit[]{Digit.Pouce, Digit.Index, Digit.Pouce});
 	}
 
-	List<GameObject> fings = new List<GameObject>();
+	public List<GameObject> fings = new List<GameObject>();
 
 	public void setFingers(IList<Digit> tab_fingers){
 		const int angle = 160;
@@ -25,6 +24,7 @@ public class Hand : MonoBehaviour {
 			fing.transform.parent = this.gameObject.transform;
 			fing.AddComponent<SpriteRenderer>();
 			fing.AddComponent<PolygonCollider2D>();
+			fing.name = finger.ToString();
 			fing.GetComponent<SpriteRenderer>().sprite = Resources.Load<Sprite>("Hand/" + finger.ToString());
 			fing.GetComponent<Transform>().Rotate(0, 0, angle - (rot * n));
 			if (finger == Digit.Pouce)
@@ -40,6 +40,18 @@ public class Hand : MonoBehaviour {
 	public void selectFingers(IList<Digit> tab_finger){
 		// Doit afficher en surbrillance les doigt nécéssaire à la figure qui est sur la card sélectionné (si il y a trois pouces dispo mais que la figure n'en requière que 1 afficher 
 		// le premier rencontré.
+		List<GameObject> cpy_fing = fings.ToList();
+		var check = new GameObject();
+		foreach (var fing in fings){
+			fing.GetComponent<SpriteRenderer>().color = new Color(1f, 1f, 1f, 1f);
+		}
+		foreach (var finger in tab_finger) {
+			check = cpy_fing.Find(fing => fing.name == finger.ToString());
+			if (check != null){
+				check.GetComponent<SpriteRenderer>().color = Color.red;
+				cpy_fing.Remove(check);
+			}
+		}
 	}
 	
 	// Update is called once per frame
