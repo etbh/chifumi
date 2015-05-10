@@ -19,11 +19,12 @@ public class Hand : MonoBehaviour {
 		int n = 0;
 		int len = tab_fingers.Count - 1;
 		int rot = angle / len;
-		//fings.ForEach (Destroy);
+		fings.ForEach (Destroy);
 		foreach(var finger in tab_fingers){
 			var fing = new GameObject();
 			fing.transform.parent = this.gameObject.transform;
 			fing.AddComponent<SpriteRenderer>();
+			fing.AddComponent<PolygonCollider2D>();
 			fing.GetComponent<SpriteRenderer>().sprite = Resources.Load<Sprite>("Hand/" + finger.ToString());
 			fing.GetComponent<Transform>().Rotate(0, 0, angle - (rot * n));
 			if (finger == Digit.Pouce)
@@ -34,6 +35,11 @@ public class Hand : MonoBehaviour {
 			len++;
 			n++;
 		}
+	}
+
+	public void selectFingers(IList<Digit> tab_finger){
+		// Doit afficher en surbrillance les doigt nécéssaire à la figure qui est sur la card sélectionné (si il y a trois pouces dispo mais que la figure n'en requière que 1 afficher 
+		// le premier rencontré.
 	}
 	
 	// Update is called once per frame
