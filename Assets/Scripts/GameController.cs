@@ -25,11 +25,10 @@ public class GameController : MonoBehaviour {
 			if (this != instance)
 				Destroy(this.gameObject);
 		}
-
 	}
 
 	public void Update(){
-		if (StartGame){
+		if (StartGame && GameObject.Find("Player 1")){
 			StartCoroutine("playGame");
 			StartGame = false;
 		}
