@@ -6,6 +6,8 @@ using UnityEngine.UI;
 
 public class GameController : MonoBehaviour {
 
+	public GameObject finText;
+
 	//Singleton, sort of
 	private static GameController instance = null;
 	public static GameController Instance{
@@ -82,6 +84,9 @@ public class GameController : MonoBehaviour {
 				players[0].Turns = players[1].Turns = 0;
 			}
 		}
+		GameObject.Find("Game Texts").SetActive(false);
+		//finText.SetActive(true);
+		GameObject.Find("Fin Text").GetComponent<Text>().enabled = true;
 	}
 
 	private IEnumerator playRound(){
@@ -115,8 +120,7 @@ public class GameController : MonoBehaviour {
 		GameObject.Find("J1 Text").GetComponent<Text>().text = "Joueur 1: " + (ScoreMode ? player1.GetComponent<Player>().Turns : player1.GetComponent<Player>().Rounds);
 		GameObject.Find("J2 Text").GetComponent<Text>().text = "Joueur 2: " + (ScoreMode ? player2.GetComponent<Player>().Turns : player2	.GetComponent<Player>().Rounds);
 		GameObject.Find("Victoire Text").GetComponent<Text>().text = Objective + " " + (ScoreMode ? "Points" : "Manches");
-		if (!ScoreMode)
-			GameObject.Find("Tour Text").GetComponent<Text>().text = "Tour : " + turn;
+		GameObject.Find("Tour Text").GetComponent<Text>().text = "Tour : " + turn + " / 3";
 		Debug.Log ("Player 1 :");
 		yield return StartCoroutine(players[0].WaitForPlay());
 		Debug.Log ("Player 2 :");
