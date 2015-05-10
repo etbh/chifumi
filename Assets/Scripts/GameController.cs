@@ -147,6 +147,9 @@ public class GameController : MonoBehaviour {
 		}
 		var animation = GameObject.Instantiate<GameObject>(Resources.Load<GameObject>("Prefabs/Animation"));
 		animation.GetComponent<SpriteRenderer>().sprite = Resources.Load<Sprite>("Animations/"+animationName);
+		var audio = animation.GetComponent<AudioSource>();
+		audio.clip = Resources.Load<AudioClip>("Sounds/"+animationName);
+		audio.Play();
 		yield return new WaitForSeconds(2);
 	}
 
