@@ -17,14 +17,17 @@ public class UIManager : MonoBehaviour {
 	private Button pointsButton;
 	private Button roundsButton;
 
-	// Other used UI elements
+	// Other used objects
 	public InputField victoryPointsInput;
+	public GameObject gameController;
+	private GameController ctrlerScript;
 
 	public void Start() {
 		playerVsAiButton = playerVsAi.GetComponent<Button>();
 		playerVsPlayerButton = playerVsPlayer.GetComponent<Button>();
 		pointsButton = points.GetComponent<Button>();
 		roundsButton = rounds.GetComponent<Button>();
+		ctrlerScript = gameController.GetComponent<GameController>();
 	}
 
 	public void ShowGameSettings() {
@@ -47,18 +50,22 @@ public class UIManager : MonoBehaviour {
 
 	public void SetPlayerVsAI() {
 		ToggleButtons(playerVsAiButton, playerVsPlayerButton);
+		ctrlerScript.IA = true;
 	}
-
+	
 	public void SetPlayerVsPlayer() {
 		ToggleButtons(playerVsPlayerButton, playerVsAiButton);
+		ctrlerScript.IA = false;
 	}
 	
 	public void SetPoints() {
 		ToggleButtons(pointsButton, roundsButton);
+		ctrlerScript.ScoreMode = true;
 	}
 
 	public void SetRounds() {
 		ToggleButtons(roundsButton, pointsButton);
+		ctrlerScript.ScoreMode = false;
 	}
 
 	public void SetVictoryPoints() {
@@ -75,9 +82,11 @@ public class UIManager : MonoBehaviour {
 		if (newValue != curValue) {
 			victoryPointsInput.text = newValue.ToString();
 		}
+		ctrlerScript.Objective = newValue;
 	}
 
 	public void StartGame() {
+		ctrlerScript.StartGame = true;
 		Application.LoadLevel("Game");
 	}
 
