@@ -48,6 +48,7 @@ public class DetailsCard : MonoBehaviour {
 	public void changeFigure(Figure figure){
 		renderers[1].sprite = Resources.Load<Sprite>("Figures/"+figure.Name);
 		renderers[2].sprite = Resources.Load<Sprite>("Figures/"+figure.Name+"_name");
+		renderers[3].sprite = Resources.Load<Sprite>("Descriptions/"+figure.Name);
 		gameObject.SetActive(true);
 	}
 
